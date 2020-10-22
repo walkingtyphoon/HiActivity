@@ -58,11 +58,12 @@ public class ActivityController {
    * @return 删除后跳转到展示页面
    */
   @RequestMapping("deleteById")
+  @ResponseBody
   public String deleteActivityById(Integer id) {
     // 根据id执行删除
     int i = iActivityService.deleteActivity(id);
     // 根据信息跳转操作
-    return i > 0 ? "redirect:/activity/queryUI" : "error";
+    return "delete ok";
   }
 
   /**

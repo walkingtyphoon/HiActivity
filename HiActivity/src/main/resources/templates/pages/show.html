@@ -155,7 +155,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal2" onclick="doUpdateObject()">Save update</button>
+                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal2"
+                            onclick="doUpdateObject()">Save update
+                    </button>
                 </div>
             </div>
         </div>
@@ -252,6 +254,8 @@
             }
 
             function doDeleteById(id) {
+
+                debugger;
                 let url = "/activity/deleteById"
 
                 let param = {"id": id}
@@ -259,17 +263,22 @@
                 $.ajax({
                     type: "post",
                     url: url,
-                    data: param,
-                    success: () => {
-                        // 局部刷新
-                        showData();
+                    data: param,// 局部刷新
+                    dataType:"text",
+                    success: () => showData(),
+                    error: function (XMLHttpRequest, textStatus) {
+                        // 状态码
+                        console.log(XMLHttpRequest.status);
+                        // 状态
+                        console.log(XMLHttpRequest.readyState);
+                        // 错误信息
+                        console.log(textStatus);
                     }
                 })
             }
 
             function doUpdateById(id) {
 
-                debugger;
                 $('#myModal').modal('show');
                 // 设置url
                 const url = "findById"
@@ -296,7 +305,7 @@
                         $("#newState").val(result.state)
                         $("#newCreatedUser").val(result.createdUser)
                     },
-                    error:alert("出错了")
+                    error: alert("出错了")
                 })
             }
 
@@ -317,6 +326,7 @@
                     }
                 })
             }
+
 
             showData();
         </script>
