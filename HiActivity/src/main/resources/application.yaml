@@ -1,0 +1,36 @@
+# 配置数据源
+spring:
+  datasource:
+    url: jdbc:mysql://182.92.123.111:3306/dbactivity?serverTimezone=UTC
+    username: root
+    password: 610628
+
+  # 配置spring web
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/pages/
+    suffix: .html
+  # 配置热部署插件
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: /templates/pages/*
+# 配置关闭log
+  main:
+    banner-mode: off
+
+# 配置日志
+logging:
+  level:
+   com.nicai.hiactivity: debug
+
+
+# 健康检查
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+

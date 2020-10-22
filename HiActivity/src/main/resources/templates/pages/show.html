@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <title>Title</title>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>恶龙咆哮,嗷呜~</h1>
+    <div>
+        <h1 id="timeId"></h1>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+        new Activity
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">add a activity</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formId" action="/activity/doSave" method="post">
+                        <div class="form-group">
+                            <label for="titleId">title</label>
+                            <input type="text" class="form-control" name="title" id="titleId"
+                                   placeholder="please input title">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoryId">category</label>
+                            <select name="category" id="categoryId" class="form-control">
+                                <option value="computer">计算机</option>
+                                <option value="eat">餐饮</option>
+                                <option value="cloth">服装</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="startTime">startTime</label>
+
+                            <input type="text" class="form-control" name="startTime" id="startTime"
+                                   placeholder="please input start Time">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endTime">endTime</label>
+
+                            <input type="text" class="form-control" name="endTime" id="endTime"
+                                   placeholder="please input end Time">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="remark">remark</label>
+
+                            <textarea rows="3" class="form-control" name="remark" id="remark"
+                                      placeholder="please input remark"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">state</label>
+
+                            <input type="text" class="form-control" name="state" id="state"
+                                   placeholder="please input end state">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="createdUser">createdUser</label>
+
+                            <input type="text" class="form-control" name="createdUser" id="createdUser"
+                                   placeholder="please input end createdUser">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="doSaveObject()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">add a activity</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formId2" action="/activity/doSave" method="post">
+                        <div class="form-group">
+                            <label for="newTitleId">title</label>
+                            <input type="text" class="form-control" name="title" id="newTitleId"
+                                   placeholder="please input title">
+                        </div>
+                        <div class="form-group">
+                            <label for="newCategoryId">category</label>
+                            <select name="category" id="newCategoryId" class="form-control">
+                                <option value="computer">计算机</option>
+                                <option value="eat">餐饮</option>
+                                <option value="cloth">服装</option>
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newStartTime">startTime</label>
+
+                            <input type="text" class="form-control" name="startTime" id="newStartTime"
+                                   placeholder="please input start Time">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newEndTime">endTime</label>
+
+                            <input type="text" class="form-control" name="endTime" id="newEndTime"
+                                   placeholder="please input end Time">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="newRemark">remark</label>
+
+                            <textarea rows="3" class="form-control" name="remark" id="newRemark"
+                                      placeholder="please input remark"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="newState">state</label>
+
+                            <input type="text" class="form-control" name="state" id="newState"
+                                   placeholder="please input end state">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="newCreatedUser">createdUser</label>
+
+                            <input type="text" class="form-control" name="createdUser" id="newCreatedUser"
+                                   placeholder="please input end createdUser">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal2" onclick="doUpdateObject()">Save update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h2 id="load">小恐龙正在搬运中...</h2>
+    <table class="table">
+        <thead>
+        <th>id</th>
+        <th>title</th>
+        <th>category</th>
+        <th>startTime</th>
+        <th>endTime</th>
+        <th>remark</th>
+        <th>state</th>
+        <th>createdTime</th>
+        <th>createUser</th>
+        </thead>
+        <tbody id="tbodyId">
+        <script>
+            $("#timeId").html(new Date().toLocaleString());
+
+            // 设置回调函数
+            function showData() {
+                // 设置url
+                const url = "queryAll";
+                // 设置参数集
+                let params = {}
+                // 设置ajax
+                $.ajax({
+                    // 传递统一资源定位器
+                    url: url,
+                    // 传递数据
+                    data: params,
+                    // 传递数据类型
+                    dataType: "json",
+                    // 处理响应数据
+                    success: result => doHandleQueryResult(result)
+                })
+            }
+
+            /**.
+             * 迭代结果，并将数据填充到tbody位置
+             * @param result 需要迭代的结果集
+             */
+            function doHandleQueryResult(result) {
+                // 调用数据成功取消提示
+                $("#load").empty();
+                // 获取元素对象
+                let $tbodyId = $("#tbodyId");
+                // 将结果中的数据遍历处理，然后添加到页面中
+                result.forEach(item => {
+                    // 追加数据
+                    $tbodyId.append(`<tr>
+                                    <td  class="active">${item.id}</td>
+                                    <td>${item.title}</td>
+                                    <td  class="success">${item.category}</td>
+                                    <td>${item.startTime}</td>
+                                    <td  class="warning">${item.endTime}</td>
+                                    <td>${item.remark}</td>
+                                    <td class="danger">${item.state === 1 ? "有效" : "已结束"}</td>
+                                    <td>${item.createdTime}</td>
+                                    <td class="info">${item.createdUser}</td>
+                                    <td ><button onclick="doDeleteById(${item.id})">delete</button></td>
+                                    <td ><button onclick="doUpdateById(${item.id})">update</button></td>
+                                    </tr>`);
+                })
+            }
+
+            function doSaveObject() {
+
+                let url = "/activity/doSave"
+
+                let param = $("#formId").serialize();
+
+                /*{
+                title: $("#titleId").val(),
+                category: $("#categoryId").val(),
+                startTime: $("#startTime").val(),
+                endTime: $("#endTime").val(),
+                remark: $("#remark").val(),
+                state: $("#state").val(),
+                createdUser: $("#createdUser").val(),
+            }*/
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: param,
+                    success: () => {
+                        $('#myModal').modal('hide');
+                        // 局部刷新
+                        showData();
+                    }
+                })
+            }
+
+            function doDeleteById(id) {
+                let url = "/activity/deleteById"
+
+                let param = {"id": id}
+
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: param,
+                    success: () => {
+                        // 局部刷新
+                        showData();
+                    }
+                })
+            }
+
+            function doUpdateById(id) {
+
+                debugger;
+                $('#myModal').modal('show');
+                // 设置url
+                const url = "findById"
+                // 设置参数集
+                let params = {"id": id}
+                // 设置ajax
+                $.ajax({
+                    // 传递统一资源定位器
+                    data: params,
+                    // 传递数据
+                    url: url,
+                    // 传递数据类型
+                    dataType: "json",
+
+                    cache: false,
+                    // 处理响应数据
+                    success: result => {
+                        // 回显数据
+                        $("#newTitleId").val(result.title)
+                        $("#newCategoryId").val(result.category)
+                        $("#newStartTime").val(result.startTime)
+                        $("#newEndTime").val(result.endTime)
+                        $("#newRemark").val(result.remark)
+                        $("#newState").val(result.state)
+                        $("#newCreatedUser").val(result.createdUser)
+                    },
+                    error:alert("出错了")
+                })
+            }
+
+            function doUpdateObject() {
+
+                let url = "/activity/update"
+
+                let param = $("#formId2").serialize();
+
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: param,
+                    success: () => {
+                        $('#myModal').modal('hide');
+                        // 局部刷新
+                        showData();
+                    }
+                })
+            }
+
+            showData();
+        </script>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
