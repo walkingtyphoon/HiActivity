@@ -3,6 +3,7 @@ package com.nicai.hiactivity.service;
 
 
 import com.nicai.hiactivity.entity.Activity;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -50,5 +51,10 @@ public interface IActivityService {
     int addActivity(Activity activity);
 
 
-
+    /**。
+     * 更新状态
+     * @param id 需要更新的数据
+     * @return 操作影响的行数
+     */
+    int updateState(Integer id);
 }

@@ -79,4 +79,9 @@ public class IActivityServiceImpl implements IActivityService {
     public int addActivity(Activity activity) {
         return iActivityDao.addData(activity);
     }
+
+    @Override
+    public int updateState(Integer id) {
+        return iActivityDao.updateState(id);
+    }
 }

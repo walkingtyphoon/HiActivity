@@ -6,7 +6,10 @@
     <title>Title</title>
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/datepicker/css/bootstrap-datetimepicker.min.css">
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/datepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/datepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
 </head>
 <body>
 
@@ -50,14 +53,14 @@
                         <div class="form-group">
                             <label for="startTime">startTime</label>
 
-                            <input type="text" class="form-control" name="startTime" id="startTime"
+                            <input type="text" class="form-control form-datetime" name="startTime" id="startTime"
                                    placeholder="please input start Time">
                         </div>
 
                         <div class="form-group">
                             <label for="endTime">endTime</label>
 
-                            <input type="text" class="form-control" name="endTime" id="endTime"
+                            <input type="text" class="form-control form-datetime" name="endTime" id="endTime"
                                    placeholder="please input end Time">
                         </div>
 
@@ -91,6 +94,8 @@
         </div>
     </div>
 
+
+
     <!-- Modal -->
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -98,10 +103,13 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel2">add a activity</h4>
+                    <h4 class="modal-title" id="myModalLabel2">update a activity</h4>
                 </div>
                 <div class="modal-body">
                     <form id="formId2" action="/activity/doSave" method="post">
+                        <input type="hidden" class="form-control" name="id" id="newid" />
+
+
                         <div class="form-group">
                             <label for="newTitleId">title</label>
                             <input type="text" class="form-control" name="title" id="newTitleId"
@@ -113,21 +121,20 @@
                                 <option value="computer">计算机</option>
                                 <option value="eat">餐饮</option>
                                 <option value="cloth">服装</option>
-
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="newStartTime">startTime</label>
 
-                            <input type="text" class="form-control" name="startTime" id="newStartTime"
+                            <input type="text" class="form-control form-datetime" name="startTime" id="newStartTime"
                                    placeholder="please input start Time">
                         </div>
 
                         <div class="form-group">
                             <label for="newEndTime">endTime</label>
 
-                            <input type="text" class="form-control" name="endTime" id="newEndTime"
+                            <input type="text" class="form-control form-datetime" name="endTime" id="newEndTime"
                                    placeholder="please input end Time">
                         </div>
 
@@ -177,6 +184,16 @@
         </thead>
         <tbody id="tbodyId">
         <script>
+
+            $(".form-datetime").datetimepicker(
+                /*{
+                language:'zh-CN',
+                format:'yyyy/mm/dd hh:ii',
+                autoClose:true
+            }*/)
+
+
+
             $("#timeId").html(new Date().toLocaleString());
 
             // 设置回调函数
@@ -228,7 +245,7 @@
 
             function doSaveObject() {
 
-                let url = "/activity/doSave"
+                let url = "doSave"
 
                 let param = $("#formId").serialize();
 
@@ -255,8 +272,7 @@
 
             function doDeleteById(id) {
 
-                debugger;
-                let url = "/activity/deleteById"
+                let url = "deleteById"
 
                 let param = {"id": id}
 
@@ -264,7 +280,7 @@
                     type: "post",
                     url: url,
                     data: param,// 局部刷新
-                    dataType:"text",
+                    // 传递数据类型
                     success: () => showData(),
                     error: function (XMLHttpRequest, textStatus) {
                         // 状态码
@@ -279,7 +295,7 @@
 
             function doUpdateById(id) {
 
-                $('#myModal').modal('show');
+                $('#myModal2').modal('show');
                 // 设置url
                 const url = "findById"
                 // 设置参数集
@@ -297,6 +313,7 @@
                     // 处理响应数据
                     success: result => {
                         // 回显数据
+                        $("#newid").val(result.id)
                         $("#newTitleId").val(result.title)
                         $("#newCategoryId").val(result.category)
                         $("#newStartTime").val(result.startTime)
@@ -305,24 +322,48 @@
                         $("#newState").val(result.state)
                         $("#newCreatedUser").val(result.createdUser)
                     },
-                    error: alert("出错了")
+                    error:  (XMLHttpRequest, textStatus) => {
+                        // 状态码
+                        alert(XMLHttpRequest.status);
+                        // 状态
+                        alert(XMLHttpRequest.readyState);
+                        // 错误信息
+                        alert(textStatus);
+                    }
                 })
             }
 
             function doUpdateObject() {
 
-                let url = "/activity/update"
-
-                let param = $("#formId2").serialize();
+                let url = "update"
+                let param = {
+                    id: $("#newid").val(),
+                    title: $("#newTitleId").val(),
+                    category: $("#newCategoryId").val(),
+                    startTime: $("#newStartTime").val(),
+                    endTime: $("#newEndTime").val(),
+                    remark: $("#newRemark").val(),
+                    state: $("#newState").val(),
+                    createdUser: $("#newCreatedUser").val()
+                }
 
                 $.ajax({
                     type: "post",
+                    contentType: "application/x-www-form-urlencoded",
                     url: url,
                     data: param,
                     success: () => {
                         $('#myModal').modal('hide');
                         // 局部刷新
                         showData();
+                    },
+                    error: (XMLHttpRequest, textStatus) => {
+                        // 状态码 400
+                        alert(XMLHttpRequest.status);
+                        // 状态 4
+                        alert(XMLHttpRequest.readyState);
+                        // 错误信息
+                        alert(textStatus);
                     }
                 })
             }

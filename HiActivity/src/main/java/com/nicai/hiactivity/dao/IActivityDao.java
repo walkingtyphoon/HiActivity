@@ -1,11 +1,7 @@
 package com.nicai.hiactivity.dao;
 
 import com.nicai.hiactivity.entity.Activity;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -48,12 +44,21 @@ public interface IActivityDao {
             "remark = #{remark},state = #{state},createdUser = #{createdUser} WHERE id = #{id}")
     int updateData(Activity activity);
 
+    /**。
+     * 更新状态
+     * @param id 需要更新的数据
+     * @return 操作影响的行数
+     */
+    @Update("UPDATE tb_activity SET state = 0 where id={id}")
+    int updateState(Integer id);
+
     /**.
      * 插入数据
-     * @param  activity
+     * @param  activity 需要添加的数据
      * @return 操作影响的行数
      */
     @Insert("insert into tb_activity value(null, #{title},#{category},#{startTime},#{endTime}, #{remark},#{state},now(),#{createdUser} )")
+    @Options(useGeneratedKeys = true,keyProperty = "id")
     int addData(Activity activity);
 
 }
